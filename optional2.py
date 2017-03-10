@@ -12,40 +12,33 @@ api_key = None
 class WeatherClient(object):
     """docstring for WeatherClient"""
     url_base = "http://api.wunderground.com/api/"
-    url_service = {"almanac": "/almanac/q/CA/"}
+    url_service = {"forecast": "/forecast/q/CA/"}
 
     def __init__(self, api_key):
         super(WeatherClient, self).__init__()
         self.api_key = api_key
 
-    def almanac(self, location):
+    def forecast(self, location):
         """
-        Accesses wunderground almanac information for the given location
+        Accesses wunderground forecast information for the given location
         """
         resp_format = "json"
         url = WeatherClient.url_base + api_key + \
             WeatherClient.url_service[
-                "almanac"] + location + "." + resp_format
+                "forecast"] + location + "." + resp_format
         r = requests.get(url)
 
         jsondata = json.loads(r.text)
-        return jsondata["almanac"]
+        print url
+        print jsondata
+        return jsondata["forecast"]
 
 
-def print_almanac(almanac):
+def print_forecast(forecast):
     """
-    Prints an almanac received as a dict
+    Prints an forecast received as a dict
     """
-    print "High Temperatures: "
-    print "Average on this date", almanac["temp_high"]["normal"]["C"]
-    print "Record on this date %s (%s) " % \
-        (almanac["temp_high"]["record"]["C"],
-            almanac["temp_high"]["recordyear"])
-    print "Low Temperatures:"
-    print "Average on this date", almanac["temp_low"]["normal"]["C"]
-    print "Record on this date %s (%s) " % \
-        (almanac["temp_low"]["record"]["C"],
-            almanac["temp_low"]["recordyear"])
+    # print "Average on this date", forecast["date.day"]
 
 
 if __name__ == "__main__":
@@ -56,4 +49,4 @@ if __name__ == "__main__":
             print "Must provide api key in code or cmdline arg"
 
     weatherclient = WeatherClient(api_key)
-    print_almanac(weatherclient.almanac("Lleida"))
+    print_forecast(weatherclient.forecast("Lleida"))

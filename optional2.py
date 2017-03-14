@@ -43,6 +43,7 @@ def print_hourly(hourly):
     print " "
     count = []
     count = list(range(0, 24))
+    print hourly[0]["FCTTIME"]["hour"]
     for x in count:
         print "At this hour: " + hourly[x]["FCTTIME"]["hour"] + ":" + \
             hourly[x]["FCTTIME"]["min"] + ":" + hourly[x]["FCTTIME"]["sec"]
